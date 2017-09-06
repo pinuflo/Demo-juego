@@ -8,7 +8,7 @@ using UnityEngine.UI;
 
 public class MainMenu : MonoBehaviour {
 
-    public Text emailInput, errorText, accountText;
+    public Text emailInput, errorText, accountText, accountText2;
     public GameObject LoggedInMenu, LoggedOutMenu;
     public InputField passwordInput;
 
@@ -48,6 +48,8 @@ public class MainMenu : MonoBehaviour {
         //Se guardan los datos del jugador en el singletón
         PlayerManager.PlayerData = pData;
         accountText.text = pData.email;
+
+        accountText2.text = "Velocidad:" + pData.velocidad + ", Duración: " + pData.tiempo_duracion + ", Bono ptje:" + pData.puntos_por_item;
 
         LoggedInMenu.SetActive(true);
         LoggedOutMenu.SetActive(false);
@@ -95,6 +97,7 @@ public class MainMenu : MonoBehaviour {
             LoggedInMenu.SetActive(true);
             LoggedOutMenu.SetActive(false);
             accountText.text = PlayerManager.PlayerData.email;
+            accountText2.text = "Velocidad:" + PlayerManager.PlayerData.velocidad + ", Duración: " + PlayerManager.PlayerData.tiempo_duracion + ", Bono ptje:" + PlayerManager.PlayerData.puntos_por_item;
         }
 
     }
