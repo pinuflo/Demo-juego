@@ -9,6 +9,7 @@ public class Character : MonoBehaviour
 	private Animator anim;			
 	private Rigidbody2D rb2d;				
     public Camera camera;
+    public GameObject explotionFx;
 
 	void Start()
 	{
@@ -30,20 +31,16 @@ public class Character : MonoBehaviour
             auxDir = auxDir.normalized;
 
             anim.SetTrigger("Flap");
-            if (Input.GetMouseButtonDown(0)) 
-			{
+
+            //Spin corto
+            if (Input.GetMouseButtonDown(0))
+            {
                 rb2d.velocity = Vector2.zero;
-                if (auxDir.x < 0)
-                {
-                    rb2d.AddForce(new Vector2(-200f, upForce));
-                }
-                else
-                {
-                    rb2d.AddForce(new Vector2(0, upForce));
-                }
+                rb2d.AddForce(new Vector2(400f * auxDir.x, 400f * auxDir.y));
+                StartCoroutine(StopSpin());
+            }
 
-			}
-
+            //Spin largo
             if (Input.GetMouseButtonDown(1))
             {
                 rb2d.velocity = Vector2.zero;
@@ -63,13 +60,21 @@ public class Character : MonoBehaviour
 	void OnCollisionEnter2D(Collision2D other)
 	{
 
+        //Al colisionar con una moneda se gana puntaje, sino, se muerre
         if (other.gameObject.tag == "Coin" )
         {
             Destroy(other.gameObject);
             GameControl.instance.Score();
+
         }
         else
         {
+            if (other.gameObject.tag != "Wall" && other.gameObject.tag != "Scenery")
+            {
+                Instantiate(explotionFx, other.gameObject.transform.position, Quaternion.identity);
+            }
+            
+
             rb2d.velocity = Vector2.zero;
             isDead = true;
             anim.SetTrigger("Die");

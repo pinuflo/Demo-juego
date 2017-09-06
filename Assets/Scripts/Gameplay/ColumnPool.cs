@@ -22,11 +22,6 @@ public class ColumnPool : MonoBehaviour
 	private float timeSinceLastSpawned;
 
 
-    void Awake()
-    {
-
-
-    }
 
     void Start()
 	{

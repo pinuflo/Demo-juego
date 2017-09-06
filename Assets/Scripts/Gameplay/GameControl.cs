@@ -30,7 +30,6 @@ public class GameControl : MonoBehaviour
     {
         do
         {
-
             remaingTime = remaingTime - 1;
             timeText.text = remaingTime.ToString();
             yield return new WaitForSeconds(1f);
@@ -43,20 +42,28 @@ public class GameControl : MonoBehaviour
 
 	void Update()
 	{
+        // Al apretar un botón al termminar el juego se vuelve ala vista inicial
 		if (gameOver && Input.GetMouseButtonDown(0)) 
 		{
 			SceneManager.LoadScene("MainScene");
 		}
 	}
 
+    /**
+     * 
+     *  Metódo para aumentar el puntaje del jugador en la cantidad definida por el usuario
+     * 
+     **/
 	public void Score()
 	{
-		if (gameOver)	
+        if (gameOver)	
 			return;
 
         score = score + PlayerManager.PointsPerItem;
 		scoreText.text = "Puntaje: " + score.ToString();
 	}
+
+
 
 	public void Die()
 	{

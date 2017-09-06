@@ -8,16 +8,16 @@ using UnityEngine.UI;
 
 public class MainMenu : MonoBehaviour {
 
-    public Text emailInput, passwordInput, errorText, accountText;
+    public Text emailInput, errorText, accountText;
     public GameObject LoggedInMenu, LoggedOutMenu;
+    public InputField passwordInput;
 
     public void LogIn()
     {
         string email    = emailInput.text;
         string password = passwordInput.text;
-
+   
         ClientManager.Login(email, password, LogInCallbackSuccess, LogInCallbackError);
- 
     }
 
     public void Register()
@@ -29,20 +29,6 @@ public class MainMenu : MonoBehaviour {
 
     }
 
-    public void postScore(int points)
-    {
-        ClientManager.SaveScore(points, PlayerManager.Token, postScoreSuccess, postScoreFail);
-    }
-
-    private void postScoreFail(string error)
-    {
-        Debug.Log(error);
-    }
-
-    private void postScoreSuccess()
-    {
-
-    }
 
     private void RegisterCallbackError(string error)
     {
@@ -52,7 +38,9 @@ public class MainMenu : MonoBehaviour {
 
     private void RegisterCallbackSuccess()
     {
-        Debug.Log("Cuenta creada con éxito");
+        string email = emailInput.text;
+        string password = passwordInput.text;
+        ClientManager.Login(email, password, LogInCallbackSuccess, LogInCallbackError);
     }
 
     private void LogInCallbackSuccess(PlayerData pData)
@@ -84,6 +72,14 @@ public class MainMenu : MonoBehaviour {
     public void Play()
     {
         SceneManager.LoadScene("Game");
+    }
+
+    public void LogOut()
+    {
+        PlayerManager.PlayerData = null;
+
+        LoggedInMenu.SetActive(false);
+        LoggedOutMenu.SetActive(true);
     }
 
     public void Start()
